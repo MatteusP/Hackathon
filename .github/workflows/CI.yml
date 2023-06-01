@@ -8,19 +8,19 @@ on:
   workflow_dispatch:
   
 jobs:
-  CI:
-  runs-on: ubuntu-latest
+   CI:
+    runs-on: ubuntu-latest
       
 steps:
-      - name: Checkout repository
+      - name: Checkout repos itory
         uses: actions/checkout@v3
         
       - name: Set up JDK 17
-  uses: actions/setup-java@v3
-  with:
-    java-version: '17'
-    distribution: 'corretto'
-    cache: maven
+        uses: actions/setup-java@v3
+        with:
+         java-version: '17'
+         distribution: 'corretto'
+        cache: maven
         
       - name: Run the tests
         run: mvn -B -f pom.xml test jacoco:prepare-agent jacoco:report
@@ -28,14 +28,14 @@ steps:
           CI: true
           
       - name: SonarCloud Analyze
-  env:
-    GGITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  run: |
-    mvn -B verify sonar:sonar \
-    -Dsonar.host.url=https://sonarcloud.io \
-    -Dsonar.organization=MatteusP \
-    -Dsonar.projectkey=MatteusP_java-api \
-    -Dsonar.languange=java \
-    -Dsonar.java.coveragePlugin=janoco \
-    -Dmaven.test.skip=true
+        env:
+        GGITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+         mvn -B verify sonar:sonar \
+         -Dsonar.host.url=https://sonarcloud.io \
+         -Dsonar.organization=MatteusP \
+         -Dsonar.projectkey=MatteusP_java-api \
+         -Dsonar.languange=java \
+         -Dsonar.java.coveragePlugin=janoco \
+         -Dmaven.test.skip=true
